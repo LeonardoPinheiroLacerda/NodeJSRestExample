@@ -105,6 +105,38 @@ app.post('/games', (req, res) => {
         .status(201)
         .send();
     
+});
+
+app.delete("/games/:id", (req, res) => {
+
+    const id = req.params.id;
+
+    if(isNaN(id)){
+        res
+            .status(400)
+            .json(
+                {
+                    status: 400,
+                    message: "ID must have a numeric value"
+                }
+            );
+        return;
+    }
+
+    const gameIndex = DB.games.findIndex(game => game.id === parseInt(id));
+
+    if(gameIndex === -1){
+        res
+            .status(404)
+            .send();
+        return;
+    }
+
+    DB.games.splice(gameIndex, 1);
+
+    res
+        .status(200)
+        .send();
 
 });
 
