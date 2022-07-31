@@ -29,8 +29,11 @@ const DB = {
     ]
 };
 
-app.get('/', (req, res) => {
-
+app.get('/games', (req, res) => {
+    
+    res
+        .status(200)
+        .json(DB.games);
 });
 
 app.listen(8080, () => {
