@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const checkIdType = require("./middlewares/checkIdType");
+
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -36,20 +38,8 @@ app.get('/games', (req, res) => {
         .json(DB.games);
 });
 
-app.get('/games/:id', (req, res) => {
+app.get('/games/:id', checkIdType, (req, res) => {
     const id = req.params.id;
-
-    if(isNaN(id)){
-        res
-            .status(400)
-            .json(
-                {
-                    status: 400,
-                    message: "ID must have a numeric value"
-                }
-            );
-        return;
-    }
 
     const game = DB.games.find(game => game.id === parseInt(id));
 
@@ -107,21 +97,9 @@ app.post('/games', (req, res) => {
     
 });
 
-app.delete("/games/:id", (req, res) => {
+app.delete("/games/:id", checkIdType, (req, res) => {
 
     const id = req.params.id;
-
-    if(isNaN(id)){
-        res
-            .status(400)
-            .json(
-                {
-                    status: 400,
-                    message: "ID must have a numeric value"
-                }
-            );
-        return;
-    }
 
     const gameIndex = DB.games.findIndex(game => game.id === parseInt(id));
 
@@ -140,21 +118,9 @@ app.delete("/games/:id", (req, res) => {
 
 });
 
-app.put("/games/:id", (req, res) => {
+app.put("/games/:id", checkIdType, (req, res) => {
 
     const id = req.params.id;
-
-    if(isNaN(id)){
-        res
-            .status(400)
-            .json(
-                {
-                    status: 400,
-                    message: "ID must have a numeric value"
-                }
-            );
-        return;
-    }
 
     const {title, price, year} = req.body;
 
