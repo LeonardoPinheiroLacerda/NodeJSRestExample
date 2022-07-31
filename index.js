@@ -62,7 +62,51 @@ app.get('/games/:id', (req, res) => {
             .status(404)
             .send();
     }
-})
+});
+
+app.post('/games', (req, res) => {
+
+    const {title, price, year} = req.body;
+
+    if(!title || !price || !year){
+        res
+            .status(400)
+            .json(
+                {
+                    status: 400,
+                    message: "The request body MUST contain title, price and year as required fields"
+                }
+            );
+        return;
+    }
+
+    if(isNaN(price) || isNaN(year)){
+        res
+            .status(400)
+            .json(
+                {
+                    status: 400,
+                    message: "Year and price MUST be a numeric value"
+                }
+            );
+        return;
+    }
+
+    const game = {
+        id: 2323,
+        title, 
+        price, 
+        year        
+    };
+
+    DB.games.push(game);
+
+    res
+        .status(201)
+        .send();
+    
+
+});
 
 app.listen(8080, () => {
     console.log("API running on port 8080");
