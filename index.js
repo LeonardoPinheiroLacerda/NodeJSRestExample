@@ -140,6 +140,48 @@ app.delete("/games/:id", (req, res) => {
 
 });
 
+app.put("/games/:id", (req, res) => {
+
+    const id = req.params.id;
+
+    if(isNaN(id)){
+        res
+            .status(400)
+            .json(
+                {
+                    status: 400,
+                    message: "ID must have a numeric value"
+                }
+            );
+        return;
+    }
+
+    const {title, price, year} = req.body;
+
+    if(price && isNaN(price) || year && isNaN(year)){
+        res
+            .status(400)
+            .json(
+                {
+                    status: 400,
+                    message: "Year and price MUST be a numeric value"
+                }
+            );
+        return;
+    }
+
+    const game = DB.games.find(game => game.id === parseInt(id));
+
+    if(title) game.title = title;
+    if(price) game.price = price;
+    if(year)  game.year = year;
+
+    res
+        .status(200)
+        .send();
+
+});
+
 app.listen(8080, () => {
     console.log("API running on port 8080");
 })
