@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 
 const checkIdType = require("./middlewares/checkIdType");
 
+const Game = require('./database/models/Game')
+
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
