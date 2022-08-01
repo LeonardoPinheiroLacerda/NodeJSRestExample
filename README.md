@@ -4,6 +4,7 @@
 
 - Docker
 - Node
+- Any browser
 
 ### Instalation
 

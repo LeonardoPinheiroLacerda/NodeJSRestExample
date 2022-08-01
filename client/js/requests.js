@@ -83,6 +83,11 @@ CREATION_FORM.addEventListener("submit", (evt) => {
 
     const game = {title, price, year};
 
+    if(isNaN(price)){
+        alert("Preço deve contér um valor numérico");
+        return;
+    }
+
     axios.post(`${END_POINT}/games`, game).then(res => {
         if(res.status == 201){
             updateGameTable();
@@ -99,6 +104,11 @@ UPDATE_FORM.addEventListener("submit", (evt) => {
     const title = document.querySelector("#edit-game-title").value;
     const price = document.querySelector("#edit-game-price").value;
     const year = document.querySelector("#edit-game-year").value;
+
+    if(isNaN(price)){
+        alert("Preço deve contér um valor numérico");
+        return;
+    }
 
     const game = {title, price, year};
 
