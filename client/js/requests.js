@@ -7,12 +7,9 @@ async function getAllGames(){
     return axios.get(`${END_POINT}/games`);
 }
 
-function clearTable(){
-    TBODY.innerHTML = "";
-}
-
 async function updateGameTable(){
     try{
+        TBODY.innerHTML = "";
         const response = await getAllGames();
         const games = response.data;
         
@@ -23,6 +20,16 @@ async function updateGameTable(){
                     <td>${game.title}</td>
                     <td>R$${game.price.toFixed(2)}</td>
                     <td>${game.year}</td>
+                    <td class="col-lg-3 col-md-4 col-sm-5">
+                        <button class="btn btn-warning mx-1"
+                            onclick="fillUpdateFields(${game.id}">
+                            Atualizar
+                        </button>
+                        <button class="btn btn-danger mx-1" 
+                            onclick="deleteItem(${game.id})">
+                            Deletar
+                        </button>
+                    </td>
                 </tr>
             `;
         }, "");
@@ -34,6 +41,16 @@ async function updateGameTable(){
     }
 }
 
+function deleteItem(id){
+    axios.delete(`${END_POINT}/games/${id}`).then(res => {
+        if(res.status == 200){
+            updateGameTable();
+        }
+    }).catch(e => {
+        alert(`Algo deu errado: ${e}.`);
+    });
+}
+
 CREATION_FORM.addEventListener("submit", (evt) => {
     evt.preventDefault();
 
@@ -43,9 +60,8 @@ CREATION_FORM.addEventListener("submit", (evt) => {
 
     const game = {title, price, year};
 
-    axios.post(`${END_POINT}/games`, game).then((res) => {
+    axios.post(`${END_POINT}/games`, game).then(res => {
         if(res.status == 201){
-            clearTable();
             updateGameTable();
         }
     }).catch(e => {
