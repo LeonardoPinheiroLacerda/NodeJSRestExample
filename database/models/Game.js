@@ -18,6 +18,6 @@ const Game = database.getConnection().define("games",
     }
 );
 
-Game.sync({force: true});
+Game.sync({force: false, alter: true});
 
 module.exports = Game;

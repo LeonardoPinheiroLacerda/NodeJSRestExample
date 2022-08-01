@@ -3,47 +3,36 @@ const bodyParser = require('body-parser');
 
 const checkIdType = require("./middlewares/checkIdType");
 
-const Game = require('./database/models/Game')
+const Game = require('./database/models/Game');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-const DB = {
-    games: [
-        {
-            id: 23,
-            title: 'Call of duty MW',
-            year: 2019,
-            price: 60
-        },
-        {
-            id: 65,
-            title: 'Sea of thieves',
-            year: 2018,
-            price: 40
-        },
-        {
-            id: 2,
-            title: 'Minecraft',
-            year: 2012,
-            price: 20
-        },
-    ]
-};
 
-app.get('/games', (req, res) => {
+app.get('/games', async (req, res) => {
     
+    const games =  await Game.findAll();
     res
         .status(200)
-        .json(DB.games);
+        .json(games);
+
 });
 
-app.get('/games/:id', checkIdType, (req, res) => {
+app.get('/games/:id', checkIdType, async (req, res) => {
     const id = req.params.id;
 
-    const game = DB.games.find(game => game.id === parseInt(id));
+    const game = await Game.findOne(
+        {
+            where: {
+                id: id
+            },
+            raw: true
+        }
+    );
+
+    // const game = await Game.findByPk(id);
 
     if(game){
         res 
@@ -56,7 +45,7 @@ app.get('/games/:id', checkIdType, (req, res) => {
     }
 });
 
-app.post('/games', (req, res) => {
+app.post('/games', async (req, res) => {
 
     const {title, price, year} = req.body;
 
@@ -85,13 +74,12 @@ app.post('/games', (req, res) => {
     }
 
     const game = {
-        id: 2323,
         title, 
         price, 
         year        
     };
 
-    DB.games.push(game);
+    await Game.create(game);
 
     res
         .status(201)
@@ -99,20 +87,33 @@ app.post('/games', (req, res) => {
     
 });
 
-app.delete("/games/:id", checkIdType, (req, res) => {
+app.delete("/games/:id", checkIdType, async (req, res) => {
 
     const id = req.params.id;
 
-    const gameIndex = DB.games.findIndex(game => game.id === parseInt(id));
+    const game = await Game.findOne(
+        {
+            where: {
+                id: id
+            },
+            raw: true
+        }
+    );
 
-    if(gameIndex === -1){
+    if(!game){
         res
             .status(404)
             .send();
         return;
     }
 
-    DB.games.splice(gameIndex, 1);
+    await Game.destroy(
+        {
+            where: {
+                id: id
+            }
+        }
+    );
 
     res
         .status(200)
@@ -120,7 +121,7 @@ app.delete("/games/:id", checkIdType, (req, res) => {
 
 });
 
-app.put("/games/:id", checkIdType, (req, res) => {
+app.put("/games/:id", checkIdType, async (req, res) => {
 
     const id = req.params.id;
 
@@ -138,11 +139,33 @@ app.put("/games/:id", checkIdType, (req, res) => {
         return;
     }
 
-    const game = DB.games.find(game => game.id === parseInt(id));
+    const game = await Game.findOne(
+        {
+            where: {
+                id: id
+            },
+            raw: true
+        }
+    );
+
+    if(!game){
+        res
+            .status(404)
+            .send();
+        return;
+    }
 
     if(title) game.title = title;
     if(price) game.price = price;
     if(year)  game.year = year;
+
+    await Game.update(game, 
+        {
+            where: {
+                id: id
+            }
+        }
+    );
 
     res
         .status(200)
