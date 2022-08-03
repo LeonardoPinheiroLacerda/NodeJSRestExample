@@ -1,7 +1,7 @@
 const sequelize = require("sequelize");
-const database = require("../Database");
+const Database = require("../Database");
 
-const Game = database.getConnection().define("games",
+const Game = Database.getConnection().define("games",
     {
         title: {
             type: sequelize.STRING,
@@ -18,6 +18,6 @@ const Game = database.getConnection().define("games",
     }
 );
 
-Game.sync({force: false, alter: true});
+Game.sync({force: false, alter: true, logging: false});
 
 module.exports = Game;
