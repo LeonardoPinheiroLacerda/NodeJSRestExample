@@ -1,7 +1,8 @@
 const express = require('express');
 const Game = require('../database/models/Game');
+
 const checkIdType = require("../middlewares/checkIdType");
-const {authenticate, JWT_SECRET_KEY} = require("../middlewares/authenticate");
+const {authenticate} = require("../middlewares/authenticate");
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.get('/games', authenticate, async (req, res) => {
 
 });
 
-router.get('/games/:id', checkIdType, async (req, res) => {
+router.get('/games/:id', authenticate, checkIdType, async (req, res) => {
     const id = req.params.id;
 
     const game = await Game.findOne(
@@ -45,7 +46,7 @@ router.get('/games/:id', checkIdType, async (req, res) => {
     }
 });
 
-router.post('/games', async (req, res) => {
+router.post('/games', authenticate, async (req, res) => {
 
     const {title, price, year} = req.body;
 
@@ -92,7 +93,7 @@ router.post('/games', async (req, res) => {
     
 });
 
-router.delete("/games/:id", checkIdType, async (req, res) => {
+router.delete("/games/:id", authenticate, checkIdType, async (req, res) => {
 
     const id = req.params.id;
 
@@ -126,7 +127,7 @@ router.delete("/games/:id", checkIdType, async (req, res) => {
 
 });
 
-router.put("/games/:id", checkIdType, async (req, res) => {
+router.put("/games/:id", authenticate, checkIdType, async (req, res) => {
 
     const id = req.params.id;
 

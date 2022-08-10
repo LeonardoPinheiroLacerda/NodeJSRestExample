@@ -2,11 +2,12 @@ const express = require('express');
 const User = require('./../database/models/User');
 const bcrypt = require("bcryptjs");
 
+const {authenticate} = require("../middlewares/authenticate");
 const checkIdType = require("../middlewares/checkIdType");
 
 const router = express.Router();
 
-router.get("/users", async (req, res) => {
+router.get("/users", authenticate, async (req, res) => {
     const users = await User.findAll();
 
     const dto = users.map(user => {
@@ -16,7 +17,7 @@ router.get("/users", async (req, res) => {
     res.json(dto);
 });
 
-router.get("/users/:id", checkIdType, async (req, res) => {
+router.get("/users/:id", authenticate, checkIdType, async (req, res) => {
 
     const id = req.params.id;
 
@@ -55,7 +56,7 @@ router.post("/users", async (req, res) => {
         .send();
 });
 
-router.put("/users/:id", checkIdType, async (req, res) => {
+router.put("/users/:id", authenticate, checkIdType, async (req, res) => {
     const id = req.params.id;
 
     const {name, email, password} = req.body;
@@ -94,7 +95,7 @@ router.put("/users/:id", checkIdType, async (req, res) => {
     res.status(200).send();
 });
 
-router.delete("/users/:id", checkIdType, async (req, res) => {
+router.delete("/users/:id", authenticate, checkIdType, async (req, res) => {
 
     const id = req.params.id;
 
