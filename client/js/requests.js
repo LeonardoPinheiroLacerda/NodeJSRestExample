@@ -1,124 +1,53 @@
 const END_POINT = "http://localhost:8080";
 
-const TBODY = document.querySelector("#game-list");
-const CREATION_FORM = document.querySelector("#new-game");
-const UPDATE_FORM = document.querySelector("#edit-game");
-
-async function getAllGames(){
-    return axios.get(`${END_POINT}/games`);
-}
-
-async function updateGameTable(){
-    try{
-        TBODY.innerHTML = "";
-        const response = await getAllGames();
-        const games = response.data;
-        
-        const trs = games.reduce((trs, game) => {
-            return `${trs}
-                <tr>
-                    <td>${game.id}</td>
-                    <td>${game.title}</td>
-                    <td>R$${game.price.toFixed(2)}</td>
-                    <td>${game.year}</td>
-                    <td class="col-lg-3 col-md-4 col-sm-5">
-                        <button class="btn btn-warning mx-1"
-                            onclick="loadUpdateFields(${game.id})">
-                            Atualizar
-                        </button>
-                        <button class="btn btn-danger mx-1" 
-                            onclick="deleteItem(${game.id})">
-                            Deletar
-                        </button>
-                    </td>
-                </tr>
-            `;
-        }, "");
-
-        TBODY.innerHTML = trs;
-
-        scrollTo(0, 0);
-    }catch(e){
-        alert(`Algo deu errado: ${e}.`);
-    }
-}
-
-function deleteItem(id){
-    axios.delete(`${END_POINT}/games/${id}`).then(res => {
-        if(res.status == 200){
-            updateGameTable();
+function getAxiosConfig() {
+    return {
+        headers:{
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic3ViamV0IjoibGVvbi5sYWNlcmRhMjAxNUBnbWFpbC5jb20iLCJpYXQiOjE2NjAxNTA5MDEsImV4cCI6MTY2MDMyMzcwMX0.sTdb-6zXgyFWteHNPOjfcnePd81y2IjSNZaGVxI4zRM"
         }
-    }).catch(e => {
-        alert(`Algo deu errado: ${e}.`);
-    });
+    };
 }
 
-async function loadUpdateFields(id){
-    const getById = async () => {
-        return axios(`${END_POINT}/games/${id}`);
+function axiosRequest(url, method = "GET", body = {}, callback){
+    let request;
+    switch(method){
+        case 'get':
+        case 'GET':
+            request = axios.get(url, getAxiosConfig());
+            break;
+        case 'post':
+        case 'POST':
+            request = axios.post(url, body, getAxiosConfig());
+            break;
+        case 'put':
+        case 'PUT':
+            request = axios.put(url, body, getAxiosConfig());
+            break;
+        case 'delete':
+        case 'DELETE':
+            request = axios.delete(url, getAxiosConfig());
+            break;
+        default:
+            return false;
     }
 
-    try{
-        const response = await getById();
-        const game = response.data;
-
-        document.querySelector("#edit-game-id").value = game.id;
-        document.querySelector("#edit-game-title").value = game.title;
-        document.querySelector("#edit-game-price").value = game.price;
-        document.querySelector("#edit-game-year").value = game.year;
-
-        scrollTo(0, document.body.scrollHeight);
-        
-    }catch(e){
-        alert(`Algo deu errado: ${e}.`);
-    }
+    request.then(result => {
+        callback(undefined, result);
+    })
+    .catch(err => {
+        callback(err);
+    })
 }
 
-CREATION_FORM.addEventListener("submit", (evt) => {
-    evt.preventDefault();
-
-    const title = document.querySelector("#game-title").value;
-    const price = document.querySelector("#game-price").value;
-    const year = document.querySelector("#game-year").value;
-
-    const game = {title, price, year};
-
-    if(isNaN(price)){
-        alert("Preço deve contér um valor numérico");
-        return;
-    }
-
-    axios.post(`${END_POINT}/games`, game).then(res => {
-        if(res.status == 201){
-            updateGameTable();
+function handleAxiosError(error){
+    if(error){
+        if(error.response.status == 401 || error.response.status == 403){
+            alert("Precisa logar");
+        }else{
+            alert("Deu ruim");
+            console.error(error);
         }
-    }).catch(e => {
-        alert(`Algo deu errado: ${e}.`);
-    });
-});
-
-UPDATE_FORM.addEventListener("submit", (evt) => {
-    evt.preventDefault();
-
-    const id = document.querySelector("#edit-game-id").value;
-    const title = document.querySelector("#edit-game-title").value;
-    const price = document.querySelector("#edit-game-price").value;
-    const year = document.querySelector("#edit-game-year").value;
-
-    if(isNaN(price)){
-        alert("Preço deve contér um valor numérico");
-        return;
+        return true;
     }
-
-    const game = {title, price, year};
-
-    axios.put(`${END_POINT}/games/${id}`, game).then(res => {
-        if(res.status == 200){
-            updateGameTable();
-        }
-    }).catch(e => {
-        alert(`Algo deu errado: ${e}.`);
-    });
-});
-
-window.onload = updateGameTable();
+    return false;
+}
