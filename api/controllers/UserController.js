@@ -107,8 +107,6 @@ router.delete("/users/:id", checkIdType, async (req, res) => {
         return;
     }
 
-    console.log(user);
-
     await User.destroy(
         {
             where: {
