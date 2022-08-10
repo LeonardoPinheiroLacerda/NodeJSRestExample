@@ -20,8 +20,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.use(GameController);
-app.use(UserController);
+app.use('/games', GameController);
+app.use('/users',UserController);
 
 app.post("/auth", async (req, res) => {
     

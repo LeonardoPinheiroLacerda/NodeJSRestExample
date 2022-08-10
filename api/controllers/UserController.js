@@ -7,7 +7,7 @@ const checkIdType = require("../middlewares/checkIdType");
 
 const router = express.Router();
 
-router.get("/users", authenticate, async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
     const users = await User.findAll();
 
     const dto = users.map(user => {
@@ -17,7 +17,7 @@ router.get("/users", authenticate, async (req, res) => {
     res.json(dto);
 });
 
-router.get("/users/:id", authenticate, checkIdType, async (req, res) => {
+router.get("/:id", authenticate, checkIdType, async (req, res) => {
 
     const id = req.params.id;
 
@@ -36,7 +36,7 @@ router.get("/users/:id", authenticate, checkIdType, async (req, res) => {
     res.json(dto);
 });
 
-router.post("/users", async (req, res) => {
+router.post("/", async (req, res) => {
 
     const {name, email, password} = req.body;
 
@@ -56,7 +56,7 @@ router.post("/users", async (req, res) => {
         .send();
 });
 
-router.put("/users/:id", authenticate, checkIdType, async (req, res) => {
+router.put("/:id", authenticate, checkIdType, async (req, res) => {
     const id = req.params.id;
 
     const {name, email, password} = req.body;
@@ -95,7 +95,7 @@ router.put("/users/:id", authenticate, checkIdType, async (req, res) => {
     res.status(200).send();
 });
 
-router.delete("/users/:id", authenticate, checkIdType, async (req, res) => {
+router.delete("/:id", authenticate, checkIdType, async (req, res) => {
 
     const id = req.params.id;
 

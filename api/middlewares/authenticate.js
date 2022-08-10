@@ -6,12 +6,12 @@ function authenticate(req, res, next){
     const authToken = req.headers['authorization'];
 
     if(authToken == undefined){
-        res.status(401).json({status:400, message:"Token não informado."});
+        res.status(401).json({status:401, message:"Token não informado."});
         return;
     }
 
     if(!authToken.startsWith("Bearer ")){
-        res.status(401).json({status:400, message:"Token inválido, todo token deve ter o prefixo 'Bearer '"});
+        res.status(401).json({status:401, message:"Token inválido, todo token deve ter o prefixo 'Bearer '"});
         return;
     }
 
@@ -19,7 +19,7 @@ function authenticate(req, res, next){
     
     jwt.verify(token, JWT_SECRET_KEY, (err, data) => {
         if(err){
-            res.status(401).json({status:400, message:"o token não é confiável!"});
+            res.status(401).json({status:401, message:"o token não é confiável!"});
             return;
         }
 
