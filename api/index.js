@@ -13,7 +13,7 @@ const User = require("./database/models/User");
 
 const app = express();
 
-const JWT_SECRET_KEY = "lkfhsdlkjhalsdjkfhalskdjhfnalksfhlkjashnfglakmsdgflkasd";
+const {JWT_SECRET_KEY} = require("./middlewares/authenticate")
 
 app.use(cors());
 
@@ -52,7 +52,7 @@ app.post("/auth", async (req, res) => {
         }
         
         res.json({
-            token: "bearer " + token
+            token: "Bearer " + token
         });
     });
 

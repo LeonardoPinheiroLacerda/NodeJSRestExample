@@ -1,10 +1,11 @@
 const express = require('express');
 const Game = require('../database/models/Game');
 const checkIdType = require("../middlewares/checkIdType");
+const {authenticate, JWT_SECRET_KEY} = require("../middlewares/authenticate");
 
 const router = express.Router();
 
-router.get('/games', async (req, res) => {
+router.get('/games', authenticate, async (req, res) => {
     
     const games =  await Game.findAll(
         {
