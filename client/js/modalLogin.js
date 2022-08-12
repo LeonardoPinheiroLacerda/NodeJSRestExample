@@ -1,13 +1,12 @@
-var loginEmail = document.querySelector("#login-email");
-var loginPassword = document.querySelector("#login-password");
-var loginBtn = document.querySelector("#login-btn");
+var loginEmail;
+var loginPassword;
+var loginBtn;
 
 var loginModal;
 
 function showLoginModal(){
     loginModal.show();
 }
-
 
 function hideLoginModal(){
     loginModal.hide();
