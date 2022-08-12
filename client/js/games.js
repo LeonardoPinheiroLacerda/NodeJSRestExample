@@ -81,7 +81,12 @@ GAME_CREATION_FORM.addEventListener("submit", (evt) => {
     const game = {title, price, year};
 
     if(isNaN(price)){
-        alert("Preço deve contér um valor numérico");
+        toastr.warning("Preço deve contér um valor numérico.", "Atenção!");
+        return;
+    }
+
+    if(isNaN(year)){
+        toastr.warning("Ano de lançamento deve contér um valor numérico.", "Atenção!");
         return;
     }
 
@@ -103,7 +108,12 @@ GAME_UPDATE_FORM.addEventListener("submit", (evt) => {
     const year = document.querySelector("#edit-game-year").value;
 
     if(isNaN(price)){
-        alert("Preço deve contér um valor numérico");
+        toastr.warning("Preço deve contér um valor numérico.", "Atenção!");
+        return;
+    }
+
+    if(isNaN(year)){
+        toastr.warning("Ano de lançamento deve contér um valor numérico.", "Atenção!");
         return;
     }
 

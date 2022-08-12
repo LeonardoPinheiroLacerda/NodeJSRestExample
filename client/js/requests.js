@@ -3,7 +3,7 @@ const END_POINT = "http://localhost:8080";
 function getAxiosConfig() {
     return {
         headers:{
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic3ViamV0IjoibGVvbi5sYWNlcmRhMjAxNUBnbWFpbC5jb20iLCJpYXQiOjE2NjAxNTA5MDEsImV4cCI6MTY2MDMyMzcwMX0.sTdb-6zXgyFWteHNPOjfcnePd81y2IjSNZaGVxI4zRM"
+            Authorization: localStorage.getItem("token")
         }
     };
 }
@@ -42,9 +42,10 @@ function axiosRequest(url, method = "GET", body = {}, callback){
 function handleAxiosError(error){
     if(error){
         if(error.response.status == 401 || error.response.status == 403){
-            alert("Precisa logar");
+            showLoginModal();
+            toastr.warning("Você está deslogado, ou sua sessão expirou", "Atenção!");
         }else{
-            alert("Deu ruim");
+            toastr.error(error, "Erro!");
             console.error(error);
         }
         return true;
