@@ -45,7 +45,7 @@ app.post("/auth", async (req, res) => {
         return;
     }   
 
-    jwt.sign({id: user.id, subjet: email}, JWT_SECRET_KEY, {expiresIn: "1h"}, (err, token) => {
+    jwt.sign({id: user.id, subjet: email}, JWT_SECRET_KEY, {expiresIn: "30m"}, (err, token) => {
         if(err){
             res.status(500).json({status: 500, message: err});
             return;

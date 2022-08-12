@@ -19,7 +19,7 @@ function authenticate(req, res, next){
     
     jwt.verify(token, JWT_SECRET_KEY, (err, data) => {
         if(err){
-            res.status(401).json({status:401, message:"o token não é confiável!"});
+            res.status(401).json({status:401, message:"o token não é confiável!: " + err});
             return;
         }
 
