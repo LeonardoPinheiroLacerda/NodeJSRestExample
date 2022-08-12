@@ -36,7 +36,7 @@ function axiosRequest(url, method = "GET", body = {}, callback){
     })
     .catch(err => {
         callback(err);
-    })
+    });
 }
 
 function handleAxiosError(error){

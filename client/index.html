@@ -8,70 +8,98 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 </head>
 <body>
-    
+
     <main class="container">
+
+        <h1 class="my-4">Aplicação de demonstração de aplicação básica utilizando nodeJS como back-end.</h1>
+        <p class="text-start">Desenvolvida por <a href="https://LeonardoPinheiroLacerda.github.io/" target="_blank">Leonardo Pinheiro Laceda</a>.</p>
+
+        <ul class="nav nav-tabs my-4" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#games-tab" type="button"
+                    role="tab" aria-controls="home-tab-pane" aria-selected="true">Jogos</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#users-tab" type="button"
+                    role="tab" aria-controls="profile-tab-pane" aria-selected="false">Usuários</button>
+            </li>
+        </ul>
+        <div class="tab-content">
+
+            <!-- GAMES -->
+
+            <div class="tab-pane fade show active" id="games-tab" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <section>
+                    <h4 class="my-4 text-center">Lista de Jogos</h4>
+                    <br>
+                    <table class="table table-striped mb-5">
+                        <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Title</th>
+                              <th scope="col">Price</th>
+                              <th scope="col">Year</th>
+                              <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="game-list">
+                          
+                        </tbody>
+                    </table>
+                </section>
         
-        <section>
-            <h4 class="my-4 text-center">Lista de Games</h4>
-            <br>
-            <table class="table table-striped mb-5">
-                <thead>
-                    <tr>
-                      <th scope="col">ID</th>
-                      <th scope="col">Title</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">Year</th>
-                      <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="game-list">
-                  
-                </tbody>
-            </table>
-        </section>
+        
+                <section>
+                    <h4 class="my-4 text-center">Cadastro de novos jogos</h4>
+                    <br>
+                    <form id="new-game" class="card mb-5">
+                        <div class="card-body">
+                            <label class="form-label" for="game-title">Titulo</label>
+                            <input id="game-title" type="text" name="title" class="form-control mb-2" placeholder="Titulo" required/>
+        
+                            <label class="form-label" for="game-price">Preço</label>
+                            <input id="game-price" type="text" name="price" class="form-control mb-2" placeholder="Preço" required/>
+        
+                            <label class="form-label" for="game-year">Ano de lançamento</label>
+                            <input id="game-year" type="number" name="year" class="form-control mb-2" placeholder="Ano de lançamento" required/>
+        
+                            <button class="btn btn-success mt-2 float-end me-2">Cadastrar</button>
+                        </div>
+                    </form>
+                </section>
+        
+                <section>
+                    <h4 class="my-4 text-center">Atualização de jogos cadastrados</h4>
+                    <br>
+                    <form id="edit-game" class="card mb-5">
+                        <div class="card-body">
+                            <label class="form-label" for="edit-game-id">ID</label>
+                            <input id="edit-game-id" type="number" name="edit-id" class="form-control mb-2" placeholder="ID" required readonly/>
+        
+                            <label class="form-label" for="edit-game-title">Titulo</label>
+                            <input id="edit-game-title" type="text" name="edit-title" class="form-control mb-2" placeholder="Titulo" required/>
+        
+                            <label class="form-label" for="edit-game-price">Preço</label>
+                            <input id="edit-game-price" type="text" name="edit-price" class="form-control mb-2" placeholder="Preço" required/>
+        
+                            <label class="form-label" for="edit-game-year">Ano de lançamento</label>
+                            <input id="edit-game-year" type="number" name="edit-year" class="form-control mb-2" placeholder="Ano de lançamento" required/>
+        
+                            <button class="btn btn-warning mt-2 float-end me-2">Atualizar</button>
+                        </div>
+                    </form>
+                </section>
+        
+            </div>
+            <div class="tab-pane fade" id="users-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                
+                <!-- USERS -->
 
-
-        <section>
-            <h4 class="my-4 text-center">Cadastro de novos jogos</h4>
-            <br>
-            <form id="new-game" class="card mb-5">
-                <div class="card-body">
-                    <label class="form-label" for="game-title">Titulo</label>
-                    <input id="game-title" type="text" name="title" class="form-control mb-2" placeholder="Titulo" required/>
-
-                    <label class="form-label" for="game-price">Preço</label>
-                    <input id="game-price" type="text" name="price" class="form-control mb-2" placeholder="Preço" required/>
-
-                    <label class="form-label" for="game-year">Ano de lançamento</label>
-                    <input id="game-year" type="number" name="year" class="form-control mb-2" placeholder="Ano de lançamento" required/>
-
-                    <button class="btn btn-success mt-2 float-end me-2">Cadastrar</button>
-                </div>
-            </form>
-        </section>
-
-        <section>
-            <h4 class="my-4 text-center">Atualização de jogos cadastrados</h4>
-            <br>
-            <form id="edit-game" class="card mb-5">
-                <div class="card-body">
-                    <label class="form-label" for="edit-game-id">ID</label>
-                    <input id="edit-game-id" type="number" name="edit-id" class="form-control mb-2" placeholder="ID" required readonly/>
-
-                    <label class="form-label" for="edit-game-title">Titulo</label>
-                    <input id="edit-game-title" type="text" name="edit-title" class="form-control mb-2" placeholder="Titulo" required/>
-
-                    <label class="form-label" for="edit-game-price">Preço</label>
-                    <input id="edit-game-price" type="text" name="edit-price" class="form-control mb-2" placeholder="Preço" required/>
-
-                    <label class="form-label" for="edit-game-year">Ano de lançamento</label>
-                    <input id="edit-game-year" type="number" name="edit-year" class="form-control mb-2" placeholder="Ano de lançamento" required/>
-
-                    <button class="btn btn-warning mt-2 float-end me-2">Atualizar</button>
-                </div>
-            </form>
-        </section>
-
+            </div>
+        </div>
+        
+       
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
