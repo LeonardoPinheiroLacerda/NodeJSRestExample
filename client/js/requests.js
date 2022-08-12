@@ -45,7 +45,7 @@ function handleAxiosError(error){
             showLoginModal();
             toastr.warning("Você está deslogado, ou sua sessão expirou", "Atenção!");
         }else{
-            toastr.error(error, "Erro!");
+            toastr.error(error.message, "Erro!");
             console.error(error);
         }
         return true;
