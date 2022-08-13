@@ -40,7 +40,16 @@ function updateUserTable(){
 }
 
 function loadUpdateUserFields(id){
+    axiosRequest(`${END_POINT}/users/${id}`, 'GET', {}, 
+    (err, response) => {
+        if(handleAxiosError(err)) return;
 
+        const user = response.data;
+
+        document.querySelector("#edit-user-id").value = user.id;
+        document.querySelector("#edit-user-name").value = user.name;
+        document.querySelector("#edit-user-email").value = user.email;
+    });
 }
 
 function deleteUserItem(id){
@@ -56,13 +65,37 @@ function deleteUserItem(id){
 USER_CREATION_FORM.addEventListener("submit", (evt) => {
     evt.preventDefault();
 
-    console.log('criando usuário')
+    const name = document.querySelector("#user-name").value;
+    const email = document.querySelector("#user-email").value;
+    const password = document.querySelector("#user-password").value;
+
+    const user = {name, email, password};
+
+    axiosRequest(`${END_POINT}/users`, 'POST', user,
+    (err, response) => {
+        if(response.status == 201){
+            if(handleAxiosError(err)) return;
+            updateUserTable();
+        }
+    });
 
 })
 
 USER_UPDATE_FORM.addEventListener("submit", (evt) => {
     evt.preventDefault();
 
-    console.log('editando usuário')
+    const id = document.querySelector("#edit-user-id").value;
+    const name = document.querySelector("#edit-user-name").value;
+    const email = document.querySelector("#edit-user-email").value;
+
+    const user = {name, email};
+
+    axiosRequest(`${END_POINT}/users/${id}`, 'PUT', user, 
+    (err, response) => {
+        if(response.status == 200){
+            if(handleAxiosError(err)) return;
+            updateUserTable();
+        }
+    });
 
 })

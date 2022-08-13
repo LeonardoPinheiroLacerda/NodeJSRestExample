@@ -43,7 +43,7 @@ function handleAxiosError(error){
     if(error){
         if(error.response.status == 401 || error.response.status == 403){
             showLoginModal();
-            toastr.warning("Você está deslogado, sua sessão expirou ou você deletou seu próprio usuário.", "Atenção!");
+            toastr.warning("Você está deslogado, sua sessão expirou ou você alterou seu e-mail.", "Atenção!");
         }else{
             toastr.error(error.message, "Erro!");
             console.error(error);
