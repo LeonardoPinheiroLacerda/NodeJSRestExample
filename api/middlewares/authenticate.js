@@ -1,3 +1,5 @@
+const User = require("./../database/models/User");
+
 const jwt = require('jsonwebtoken');
 
 const JWT_SECRET_KEY = "lkfhsdlkjhalsdjkfhalskdjhfnalksfhlkjashnfglakmsdgflkasd";
@@ -23,10 +25,18 @@ function authenticate(req, res, next){
             return;
         }
 
-        req.token = token;
-        req.loggedUser = {id: data.id, email: data.subjet};
+        User.findOne({where:{email: data.subjet}, raw: true}).then(user => {
+            if(!user){
+                res.status(401).json({status:401, message:"o token não é confiável!: " + err});
+                return;
+            }
 
-        next();
+            req.token = token;
+            req.loggedUser = {id: data.id, email: data.subjet};
+
+            next();
+        });
+
     });
 
     
