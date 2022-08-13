@@ -75,7 +75,11 @@ function signin() {
         signinBtn.disabled = false;
 
         if(err) {
-            toastr.error(err.response.data[0].message, "Erro!");
+            if(err.response.data[0]){
+                toastr.error(err.response.data[0].message, "Erro!")
+            }else{
+                toastr.error(err.response.data.message, "Erro!");
+            }
             return;
         }
 

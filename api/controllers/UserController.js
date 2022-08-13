@@ -40,6 +40,14 @@ router.post("/", async (req, res) => {
 
     const {name, email, password} = req.body;
 
+    if(!name || !email || !password){
+        res.status(400).json({
+            status: 400,
+            message: "Todos os campos (nome, e-mail e senha) devem ser informados para a criação de um novo usuário."
+        });
+        return;
+    }
+
     const salt = bcrypt.genSaltSync(5);
     const hash = bcrypt.hashSync(password, salt);
 
