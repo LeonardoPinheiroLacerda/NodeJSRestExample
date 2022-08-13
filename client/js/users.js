@@ -35,7 +35,6 @@ function updateUserTable(){
 
         USER_TBODY.innerHTML = trs;
 
-        scrollTo(0, 0);
     });        
 
 }

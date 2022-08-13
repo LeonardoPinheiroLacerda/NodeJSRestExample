@@ -12,7 +12,7 @@
 
     <main class="container">
 
-        <h1 class="my-4">Aplicação de demonstração de aplicação básica utilizando nodeJS como back-end.</h1>
+        <h1 class="my-4">Aplicação de demonstração básica utilizando nodeJS como back-end.</h1>
         <div class="d-flex flex-row">
             <p class="text-start my-auto">Desenvolvida por <a href="https://LeonardoPinheiroLacerda.github.io/" target="_blank">Leonardo Pinheiro Laceda</a>.</p>
             <button class="btn btn-danger ms-auto d-flex align-items-center"
@@ -42,30 +42,27 @@
 
             <div class="tab-pane fade show active" id="games-tab" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
-                <section>
-                    <h4 class="my-4 text-center">Lista de Jogos</h4>
-                    <br>
-                    <table class="table table-striped mb-5">
-                        <thead>
-                            <tr>
-                              <th scope="col">ID</th>
-                              <th scope="col">Title</th>
-                              <th scope="col">Price</th>
-                              <th scope="col">Year</th>
-                              <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="game-list">
-                          
-                        </tbody>
-                    </table>
-                </section>
+                <h4 class="my-4 text-center">Lista de Jogos</h4>
+                <table class="table table-striped mb-5 mt-2">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Year</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="game-list">
+                        
+                    </tbody>
+                </table>
         
-        
-                <section>
-                    <h4 class="my-4 text-center">Cadastro de novos jogos</h4>
-                    <br>
-                    <form id="new-game" class="card mb-5">
+                <div class="d-flex flex-row justify-content-around align-items-start gap-3 flex-wrap">
+                    <form id="new-game" class="card col-md-5 col-sm-12">
+                        <card class="card-header">
+                            <h4 class="my-1 text-center">Cadastro de novos jogos</h4>
+                        </card>
                         <div class="card-body">
                             <label class="form-label" for="game-title">Titulo</label>
                             <input id="game-title" type="text" name="title" class="form-control mb-2" placeholder="Titulo" required/>
@@ -75,16 +72,16 @@
         
                             <label class="form-label" for="game-year">Ano de lançamento</label>
                             <input id="game-year" type="number" name="year" class="form-control mb-2" placeholder="Ano de lançamento" required/>
-        
+                        </div>
+                        <div class="card-footer">
                             <button class="btn btn-success mt-2 float-end me-2">Cadastrar</button>
                         </div>
                     </form>
-                </section>
-        
-                <section>
-                    <h4 class="my-4 text-center">Atualização de jogos cadastrados</h4>
-                    <br>
-                    <form id="edit-game" class="card mb-5">
+                    
+            
+                    
+                    <form id="edit-game" class="card col-md-5 col-sm-12">
+                        <div class="card-header"><h4 class="text-center">Atualização de jogos cadastrados</h4></div>
                         <div class="card-body">
                             <label class="form-label" for="edit-game-id">ID</label>
                             <input id="edit-game-id" type="number" name="edit-id" class="form-control mb-2" placeholder="ID" required readonly/>
@@ -97,56 +94,77 @@
         
                             <label class="form-label" for="edit-game-year">Ano de lançamento</label>
                             <input id="edit-game-year" type="number" name="edit-year" class="form-control mb-2" placeholder="Ano de lançamento" required/>
-        
+                        </div>
+                        <div class="card-footer">
                             <button class="btn btn-warning mt-2 float-end me-2">Atualizar</button>
                         </div>
                     </form>
-                </section>
+                </div>
         
             </div>
             <div class="tab-pane fade" id="users-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 
-                <section>
-                    <h4 class="my-4 text-center">Lista de Usuários</h4>
-                    <br>
-                    <table class="table table-striped mb-5">
-                        <thead>
-                            <tr>
-                              <th scope="col">ID</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Email</th>
-                              <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="user-list">
-                          
-                        </tbody>
-                    </table>
-                </section>
+                <!-- USERS -->
 
-                <section>
-                    <h4 class="my-4 text-center">Cadastro de novos usuários</h4>
-                    <br>
-                    <form id="new-user" class="card mb-5">
+                <h4 class="my-4 text-center">Lista de Usuários</h4>
+                <table class="table table-striped mb-5 mt-2">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-list">
+                        
+                    </tbody>
+                </table>
+
+                <div class="d-flex flex-row justify-content-around align-items-start gap-3 flex-wrap">
+                    <form id="new-user" class="card col-md-5 col-sm-12">
+                        <card class="card-header">
+                            <h4 class="my-1 text-center">Cadastro de novos usuários</h4>
+                        </card>
                         <div class="card-body">
-                            
-        
+                            <label class="form-label" for="user-name">Nome</label>
+                            <input class="form-control" type="text" id="user-name" name="name" placeholder="Nome"/>
+
+                            <label class="form-label mt-2" for="user-email">E-mail</label>
+                            <input class="form-control" type="text" id="user-email" name="email" placeholder="E-mail"/>
+
+                            <label class="form-label mt-2" for="user-password">Senha</label>
+                            <input class="form-control my-1" type="password" id="user-password" name="password" placeholder="Senha"/>
+                        </div>
+                        <div class="card-footer">
                             <button class="btn btn-success mt-2 float-end me-2">Cadastrar</button>
                         </div>
                     </form>
-                </section>
-
-                <section>
-                    <h4 class="my-4 text-center">Atualização de usuários cadastrados</h4>
-                    <br>
-                    <form id="edit-user" class="card mb-5">
+                    
+            
+                    
+                    <form id="edit-user" class="card col-md-5 col-sm-12">
+                        <div class="card-header"><h4 class="text-center">Atualização de usuários cadastrados</h4></div>
                         <div class="card-body">
                             
-        
+                            <label class="form-label" for="edit-user-id">ID</label>
+                            <input class="form-control" type="text" id="edit-user-id" name="name" placeholder="ID" required readonly/>
+
+                            <label class="form-label" for="edit-user-name">Nome</label>
+                            <input class="form-control" type="text" id="edit-user-name" name="name" placeholder="Nome"/>
+
+                            <label class="form-label mt-2" for="edit-user-email">E-mail</label>
+                            <input class="form-control" type="text" id="edit-user-email" name="email" placeholder="E-mail"/>
+
+                            <label class="form-label mt-2" for="edit-user-password">Senha</label>
+                            <input class="form-control my-1" type="password" id="edit-user-password" name="password" placeholder="Senha"/>
+
+                        </div>
+                        <div class="card-footer">
                             <button class="btn btn-warning mt-2 float-end me-2">Atualizar</button>
                         </div>
                     </form>
-                </section>
+                </div>
 
             </div>
         </div>

@@ -36,7 +36,6 @@ function updateGameTable(){
 
         GAME_TBODY.innerHTML = trs;
 
-        scrollTo(0, 0);
     });        
 
 }
@@ -66,7 +65,6 @@ function loadUpdateGameFields(id){
         document.querySelector("#edit-game-price").value = game.price;
         document.querySelector("#edit-game-year").value = game.year;
 
-        scrollTo(0, document.body.scrollHeight);
     });
         
 }
