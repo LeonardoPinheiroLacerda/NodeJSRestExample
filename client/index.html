@@ -106,7 +106,47 @@
             </div>
             <div class="tab-pane fade" id="users-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 
-                <!-- USERS -->
+                <section>
+                    <h4 class="my-4 text-center">Lista de Usuários</h4>
+                    <br>
+                    <table class="table table-striped mb-5">
+                        <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Email</th>
+                              <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-list">
+                          
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h4 class="my-4 text-center">Cadastro de novos usuários</h4>
+                    <br>
+                    <form id="new-user" class="card mb-5">
+                        <div class="card-body">
+                            
+        
+                            <button class="btn btn-success mt-2 float-end me-2">Cadastrar</button>
+                        </div>
+                    </form>
+                </section>
+
+                <section>
+                    <h4 class="my-4 text-center">Atualização de usuários cadastrados</h4>
+                    <br>
+                    <form id="edit-user" class="card mb-5">
+                        <div class="card-body">
+                            
+        
+                            <button class="btn btn-warning mt-2 float-end me-2">Atualizar</button>
+                        </div>
+                    </form>
+                </section>
 
             </div>
         </div>
@@ -121,5 +161,12 @@
     <script src="js/modals.js"></script>
     <script src="js/requests.js"></script>
     <script src="js/games.js"></script>
+    <script src="js/users.js"></script>
+    <script>
+        window.onload = () => {
+            updateGameTable(); 
+            updateUserTable();
+        }
+    </script>
 </body>
 </html>

@@ -1,10 +1,10 @@
-const TBODY = document.querySelector("#game-list");
+const GAME_TBODY = document.querySelector("#game-list");
 const GAME_CREATION_FORM = document.querySelector("#new-game");
 const GAME_UPDATE_FORM = document.querySelector("#edit-game");
 
 function updateGameTable(){
 
-    TBODY.innerHTML = "";
+    GAME_TBODY.innerHTML = "";
 
     axiosRequest(`${END_POINT}/games`, 'GET', {}, 
     (err, response) => {
@@ -22,11 +22,11 @@ function updateGameTable(){
                     <td>${game.year}</td>
                     <td class="col-lg-3 col-md-4 col-sm-5">
                         <button class="btn btn-warning mx-1"
-                            onclick="loadUpdateFields(${game.id})">
+                            onclick="loadUpdateGameFields(${game.id})">
                             Atualizar
                         </button>
                         <button class="btn btn-danger mx-1" 
-                            onclick="deleteItem(${game.id})">
+                            onclick="deleteGameItem(${game.id})">
                             Deletar
                         </button>
                     </td>
@@ -34,14 +34,14 @@ function updateGameTable(){
             `;
         }, "");
 
-        TBODY.innerHTML = trs;
+        GAME_TBODY.innerHTML = trs;
 
         scrollTo(0, 0);
     });        
 
 }
 
-function deleteItem(id){
+function deleteGameItem(id){
 
     axiosRequest(`${END_POINT}/games/${id}`, 'DELETE', {}, 
     (err, response) => {
@@ -53,7 +53,7 @@ function deleteItem(id){
 
 }
 
-function loadUpdateFields(id){
+function loadUpdateGameFields(id){
 
     axiosRequest(`${END_POINT}/games/${id}`, 'GET', {}, 
     (err, response) => {
@@ -128,4 +128,3 @@ GAME_UPDATE_FORM.addEventListener("submit", (evt) => {
     });
 });
 
-window.onload = updateGameTable();

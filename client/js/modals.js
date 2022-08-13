@@ -55,6 +55,7 @@ function login(email, password) {
         hideLoginModal();
         hideSigninModal();
         updateGameTable();
+        updateUserTable();
     });
 
 }
