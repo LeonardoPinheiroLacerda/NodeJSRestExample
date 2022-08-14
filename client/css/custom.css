@@ -1,0 +1,13 @@
+.action-button{
+    cursor: pointer;
+    height:24px;
+    outline: none;
+}
+
+.action-button:hover{
+    filter: brightness(200%);
+}
+
+.action-button:active{
+    filter: brightness(300%);
+}
