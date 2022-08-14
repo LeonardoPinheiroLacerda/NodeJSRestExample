@@ -10,10 +10,12 @@
 
 ~~~terminal
 git clone https://github.com/LeonardoPinheiroLacerda/NodeJSRestExample.git
-cd NodeJSRestExample.git
+cd NodeJSRestExample
 docker-compose up -d
 cd api
+npm install
 node index
+
 ~~~
 
 After creating your database and run the api you can access the front-end by opening the ``client/index.html`` file.
