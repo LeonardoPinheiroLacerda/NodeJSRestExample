@@ -1,0 +1,252 @@
+openapi: 3.0.0
+info:
+  title: API de games
+  description: API de gestão de games com autenticação JWT desenvolvida com o objetivo de estudos de APIS Restful.
+  version: 1.0.0
+  contact: 
+    email: leon.lacerda2015@gmail.com
+    url: https://LeonardoPinheiroLacerda.github.io
+    name: Leonardo Pinheiro Lacerda
+
+servers:
+  - url: http://localhost:8080
+    description: Aplicação de teste
+
+paths:
+
+  /auth:
+    post:
+      summary: Autentica usuário
+      description: Se bem sucedido irá retornar um token JWT que será necessário para acessar end points protegidos da aplicação. O token deve ser enviado no header Authorization dos requests, se válido o usuário será capaz de acessar o end point
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BearerToken'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+
+  /games:
+    get:
+      summary: Recebe todos jogos persistidos
+      security:
+        - bearer: [Authorization]
+      tags:
+        - Games
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'   
+
+    post:
+      summary: Criar jogo
+      tags:
+        - Games
+      security:
+        - bearer: [Authorization]      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+
+  /games/{id}:
+    get:
+      summary: Recebe produto por id
+      security:
+        - bearer: [Authorization]
+      tags: 
+        - Games
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+
+    delete:
+      summary: Deleta um jogo por id
+      tags:
+        - Games
+      security:
+        - bearer: [Authorization]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        
+    put:
+      summary: Atualiza jogo por id
+      security:
+        - bearer: [Authorization]
+      tags:
+        - Games
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+
+components:
+  responses:
+    201:
+      description: Created
+    400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultError'
+    401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultError'
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultError'
+    404:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultError'
+
+  schemas:
+    UserCredentials:
+      type: object
+      properties:
+        email:
+          type: string
+          description: E-mail do usuário que deseja fazer o login.
+          default: leon.lacerda2015@gmail.com
+        password:
+          description: Senha do usuário vinculado ao e-mail informado.
+          type: string
+          default: admin
+
+    Game:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID unico do jogo
+          readOnly: true
+        title:
+          type: string
+          default: 'The last of us'
+          description: Titulo do jogo
+        price: 
+          type: number
+          default: 50
+          description: Preço do jogo em reais
+        year:
+          type: integer
+          default: 2013
+          description: Ano de lançamento do jogo
+        created_at:
+          type: string
+          readOnly: true
+          description: Data de criação do registro do jogo
+        updated_at:
+          type: string
+          readOnly: true
+          description: Data de ultima modificação do registro do jogo
+        
+
+    BearerToken:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Token de acesso que deverá ser utilizado no header Authorization dos end points protegidos
+
+    DefaultError:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+
+  securitySchemes:
+    bearer:
+      description: Token JWT para acesso de end points protegidos da API
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
