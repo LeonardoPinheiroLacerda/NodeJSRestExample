@@ -158,6 +158,130 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 
+  /users:
+    get:
+      summary: Recebe todos os usuários da base de dados
+      tags:
+        - Users
+      security:
+        - bearer: [Authorization]
+      responses:
+        '200':
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/401'
+
+    post:
+      summary: Cria usuário
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#components/responses/400'
+        '401':
+          $ref: '#components/responses/401'
+        '403':
+          $ref: '#components/responses/403'
+
+  /users/{id}:
+    get:
+      summary: Recebe usuário por id
+      tags:
+        - Users
+      security:
+        - bearer: [Authorization]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#components/responses/400'
+        '401':
+          $ref: '#components/responses/401'
+        '403':
+          $ref: '#components/responses/403'
+        '404':
+          $ref: '#components/responses/404'
+
+    delete:
+      summary: Deleta usuário por id
+      tags:
+        - Users
+      security:
+        - bearer: [Authorization]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'      
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+
+    put:
+      summary: Atualiza usuário por id
+      tags:
+        - Users
+      security:
+        - bearer: [Authorization]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK
+        '400': 
+          $ref: '#/components/responses/400'
+        '401': 
+          $ref: '#/components/responses/401'
+        '403': 
+          $ref: '#/components/responses/403'
+        '404': 
+          $ref: '#/components/responses/404'
+
+
+
 components:
   responses:
     201:
@@ -228,6 +352,25 @@ components:
           readOnly: true
           description: Data de ultima modificação do registro do jogo
         
+    User:
+      type: object
+      properties:
+        id: 
+          type: integer
+          readOnly: true
+          description: ID unico do usuário
+        name:
+          type: string
+          description: Nome completo do usuário
+          default: Leonardo Pinheiro Lacerda
+        email:
+          type: string
+          description: E-mail vinculado ao usuário
+          default: leon.lacerda2015@gmail.com
+        password:
+          type: string
+          writeOnly: true
+          default: admin
 
     BearerToken:
       type: object
